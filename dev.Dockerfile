@@ -4,8 +4,10 @@ EXPOSE 80
 
 
 RUN pip install pdm
-# COPY ./src/Pipfile* .
+COPY ./container/pyproject.toml .
+COPY ./container/pdm.lock .
 
+RUN pdm install
 
 COPY ./container .
 
