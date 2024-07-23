@@ -6,6 +6,7 @@ EXPOSE 80
 RUN pip install pdm
 COPY ./container/pyproject.toml .
 COPY ./container/pdm.lock .
+COPY ./container/README.md .
 
 RUN pdm install
 

@@ -20,6 +20,7 @@ license = {text = "MIT"}
 [project.optional-dependencies]
 dev = [
     "ipykernel>=6.29.5",
+    "pytest>=8.3.1",
 ]
 [build-system]
 requires = ["pdm-backend"]
