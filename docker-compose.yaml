@@ -11,6 +11,7 @@ services:
   
     volumes:
       - ./container:/container
+      - /container/.venv
       - ../.vscode-server/container:/root/.vscode-server
     secrets:
       - openai.txt
