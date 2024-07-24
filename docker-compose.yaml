@@ -15,6 +15,10 @@ services:
       - ../.vscode-server/container:/root/.vscode-server
     secrets:
       - openai.txt
+      - facebook.json
+      - line.json
+    ports:
+      - 80:80
 
   pgvector:
     image: pgvector/pgvector:0.7.3-pg16
@@ -33,3 +37,7 @@ volumes:
 secrets:
   openai.txt:
     file: ./secrets/openai.txt
+  facebook.json:
+    file: ./secrets/facebook.json
+  line.json:
+    file: ./secrets/line.json

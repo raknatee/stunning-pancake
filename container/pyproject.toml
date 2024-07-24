@@ -21,6 +21,7 @@ license = {text = "MIT"}
 dev = [
     "ipykernel>=6.29.5",
     "pytest>=8.3.1",
+    "types-requests>=2.32.0.20240712",
 ]
 [build-system]
 requires = ["pdm-backend"]

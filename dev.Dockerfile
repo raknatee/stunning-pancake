@@ -8,12 +8,12 @@ COPY ./container/pyproject.toml .
 COPY ./container/pdm.lock .
 COPY ./container/README.md .
 
-RUN pdm install
+RUN pdm install -G dev
 
 COPY ./container .
 
 ENV TZ=Asia/Bangkok
 
-CMD tail -f /dev/null
-# CMD pdm run uvicorn main:app --host 0.0.0.0 --port 80 --reload
+# CMD tail -f /dev/null
+CMD pdm run uvicorn main:app --host 0.0.0.0 --port 80 --reload
 
