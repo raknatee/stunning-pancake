@@ -17,6 +17,7 @@ services:
       - openai.txt
       - facebook.json
       - line.json
+      - claude.txt
     ports:
       - 80:80
 
@@ -41,3 +42,5 @@ secrets:
     file: ./secrets/facebook.json
   line.json:
     file: ./secrets/line.json
+  claude.txt:
+    file: ./secrets/claude.txt

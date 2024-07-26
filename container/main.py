@@ -1,16 +1,15 @@
 import base64
 import json
-from typing import TypedDict
 import hashlib
 import hmac
 
 from fastapi import FastAPI, Request, Response, HTTPException, status
-from ai_bot import make_chat
 import requests
 from langchain_core.messages import BaseMessage
 
 
-from ai_bot_rag import make_chat_with_rag
+from facebook_chat import make_facebook_chat
+from line_chat import make_line_chat
 
 app = FastAPI()
 
@@ -31,8 +30,13 @@ with open("/run/secrets/line.json") as line_secrets:
     CHANNEL_SECRET = secrets["CHANNEL_SECRET"]
     CHANNEL_ACCESS_TOKEN = secrets["CHANNEL_ACCESS_TOKEN"]
 
+
+@app.get("/")
+def hello_world():
+    return {"data": "HelloWorld"}
+
 @app.get("/webhook")
-def listen(request:Request):
+async def listen(request:Request):
 
     return Response(verify_webhook(request))
 
@@ -52,12 +56,12 @@ def verify_webhook(req:Request)->str:
 user_chat_historys:dict[str,list[tuple[str, str]]] = {}
 
 @app.post("/webhook")
-def call_back(data:dict):
+async def call_back(data:dict):
     user_input = (data["entry"][0]["messaging"][0]["message"]["text"])
     recipient = data["entry"][0]["messaging"][0]["sender"]['id']
     if recipient not in user_chat_historys:
         user_chat_historys[recipient] = []
-    result = make_chat(user_input, user_chat_historys[recipient])
+    result = make_facebook_chat(user_input, user_chat_historys[recipient])
     print(user_chat_historys[recipient])
     fb_api_url = "https://graph.facebook.com/v2.6/"
 
@@ -112,7 +116,7 @@ async def line_verify(req:Request):
         "messages":[
         {
             "type":"text",
-            "text": make_chat_with_rag(incoming_msg,line_user_chat_history[user])
+            "text": make_line_chat(incoming_msg,line_user_chat_history[user])
         },]
     })
     print(resp.status_code)
